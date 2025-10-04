@@ -1,4 +1,4 @@
-package Controller.Order;
+package Service.Order;
 
 import Model.Order;
 import Model.OrderDetail;
@@ -10,4 +10,10 @@ public interface OrderService {
     void AddOrder(Order order);
 
     void AddOrderDetail(OrderDetail orderDetail);
+
+    String generateOrderID();
+
+    ObservableList<String> loadCustomerDetails();
+
+    ObservableList<String> loadItemDetails();
 }

@@ -1,7 +1,8 @@
 package Controller.Item;
 
-import DB.DBConnection;
 import Model.ItemDetails;
+import Service.Item.ItemServiceImpl;
+import Service.Item.ItemService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,15 +19,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ItemFormController implements Initializable {
     ObservableList<ItemDetails>itemDetails= FXCollections.observableArrayList();
-    ItemService itemService=new ItemController();
+    ItemService itemService=new ItemServiceImpl();
     Stage stage=new Stage();
 
     @FXML
@@ -75,30 +72,10 @@ public class ItemFormController implements Initializable {
     private TextField txtSize;
 
     private void generateItemCode() {
-        try {
-            Connection connection= DBConnection.getInstance().getConnection();
-            String query = "SELECT ItemCode FROM Item ORDER BY ItemCode DESC LIMIT 1";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        String newId=itemService.generatecode();
+        txtCode.setText(newId);
+        txtCode.setEditable(false);
 
-            String newId = "P001";
-
-            if (resultSet.next()) {
-                String lastId = resultSet.getString(1);
-
-                // Extract the numeric part and increment
-                int num = Integer.parseInt(lastId.substring(1)) + 1;
-                newId = String.format("P%03d", num);
-            }
-
-            txtCode.setText(newId);
-            txtCode.setEditable(false); // Make the ID field read-only
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            txtCode.setText("Error generating ID");
-        }
 
 
     }

@@ -1,4 +1,4 @@
-package Controller.Item;
+package Service.Item;
 
 import Model.ItemDetails;
 import javafx.collections.ObservableList;
@@ -12,4 +12,8 @@ public interface ItemService {
     void UpdateItems(String code, ItemDetails itemDetails1);
 
     void DeleteItem(String code);
+
+    String generatecode();
+
+    ItemDetails enter(String code);
 }

@@ -1,7 +1,8 @@
 package Controller.Customer;
 
-import DB.DBConnection;
 import Model.CustomerDetails;
+import Service.Customer.CustomerServiceImpl;
+import Service.Customer.CustomerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class CustomerEditController implements Initializable {
     ObservableList<CustomerDetails> customerDetails= FXCollections.observableArrayList();
-    CustomerService customerService=new CustomerController();
+    CustomerService customerService=new CustomerServiceImpl();
 
     @FXML
     private Button btnBack;
@@ -101,16 +102,8 @@ public class CustomerEditController implements Initializable {
     @FXML
     void OnDelete(ActionEvent event) {
         String Cusid=txtID.getText();
+        customerService.deleteCustomer(Cusid);
 
-        try {
-            Connection connection=DBConnection.getInstance().getConnection();
-            String SQL="DELETE FROM Customer WHERE CustID=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setObject(1,Cusid);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         loadCustomerDetails();
 
     }
@@ -126,29 +119,20 @@ public class CustomerEditController implements Initializable {
         String city=txtCity.getText();
         String province=cmbProvince.getValue();
         int postalcode=Integer.parseInt(txtPostalCode.getText());
-        try {
-            Connection connection=DBConnection.getInstance().getConnection();
 
+        CustomerDetails cusdetails=new CustomerDetails(
+                Cusid,
+                title,
+                name,
+                dob,
+                salary,
+                address,
+                city,
+                province,
+                postalcode
+        );
+        customerService.updateCustomer(cusdetails);
 
-            String SQL = "UPDATE Customer set CustTitle=?,CustName=?,DOB=?,salary=?,CustAddress=?,City=?,Province=?,PostalCode=? WHERE CustID=?";
-            PreparedStatement preparedStatement =connection.prepareStatement(SQL);
-            preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setObject(1,title);
-            preparedStatement.setObject(2,name);
-            preparedStatement.setObject(3,dob);
-            preparedStatement.setObject(4,salary);
-            preparedStatement.setObject(5,address);
-            preparedStatement.setObject(6,city);
-            preparedStatement.setObject(7,province);
-            preparedStatement.setObject(8,postalcode);
-            preparedStatement.setObject(9,Cusid);
-            preparedStatement.executeUpdate();
-
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         loadCustomerDetails();
     }
 
@@ -178,30 +162,24 @@ public class CustomerEditController implements Initializable {
         tblCustomer.setItems(customerDetails);
     }
     @FXML
-    void OnEnter(ActionEvent event) {
+    void OnEnter(ActionEvent event) throws SQLException {
         String id=txtID.getText();
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            String SQL="SELECT * FROM Customer WHERE CustID=?";
-            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
-            preparedStatement.setObject(1,id);
-            ResultSet resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()){
-                cmbTitle.setValue(resultSet.getString("CustTitle"));
-                txtName.setText(resultSet.getString("CustName"));
-                datePicker.setValue(resultSet.getDate("DOB").toLocalDate());
-                txtSalary.setText(resultSet.getString("salary"));
-                txtAddress.setText(resultSet.getString("CustAddress"));
-                txtCity.setText(resultSet.getString("City"));
-                cmbProvince.setValue(resultSet.getString("Province"));
-                txtPostalCode.setText(resultSet.getString("PostalCode"));
+        CustomerDetails cusdetails=customerService.enter(id);
+        cmbTitle.setValue(cusdetails.getTitle());
+        txtName.setText(cusdetails.getName());
+        datePicker.setValue(cusdetails.getDob());
+        txtSalary.setText(String.valueOf(cusdetails.getSalary()));
+        txtAddress.setText(cusdetails.getAddress());
+        txtCity.setText(cusdetails.getCity());
+        cmbProvince.setValue(cusdetails.getProvince());
+        txtPostalCode.setText(String.valueOf(cusdetails.getPostalcode()));
 
 
-            }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+
+
+
 
     }
 

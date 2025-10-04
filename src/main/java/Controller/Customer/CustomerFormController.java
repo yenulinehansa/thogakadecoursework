@@ -1,7 +1,8 @@
 package Controller.Customer;
 
-import DB.DBConnection;
 import Model.CustomerDetails;
+import Service.Customer.CustomerServiceImpl;
+import Service.Customer.CustomerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,16 +21,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CustomerFormController implements Initializable {
 
     ObservableList <CustomerDetails>customerDetails=FXCollections.observableArrayList();
-    CustomerService customerService=new CustomerController();
+    CustomerService customerService=new CustomerServiceImpl();
     Stage stage=new Stage();
 
     @FXML
@@ -114,30 +111,9 @@ public class CustomerFormController implements Initializable {
     }
 
     private void generateCustomerId() {
-        try {
-            Connection connection= DBConnection.getInstance().getConnection();
-            String query = "SELECT CustID FROM Customer ORDER BY CustID DESC LIMIT 1";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            String newId = "C001"; // Default first ID
-
-            if (resultSet.next()) {
-                String lastId = resultSet.getString(1);
-
-                // Extract the numeric part and increment
-                int num = Integer.parseInt(lastId.substring(1)) + 1;
-                newId = String.format("C%03d", num); // Formats as C001, C002, etc.
-            }
-
-            txtID.setText(newId);
-            txtID.setEditable(false); // Make the ID field read-only
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            txtID.setText("Error generating ID");
-        }
+        String newId=customerService.generatecustomerID();
+        txtID.setText(newId);
+        txtID.setEditable(false);
 
 
     }

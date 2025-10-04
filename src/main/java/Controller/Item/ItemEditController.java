@@ -1,7 +1,8 @@
 package Controller.Item;
 
-import DB.DBConnection;
 import Model.ItemDetails;
+import Service.Item.ItemServiceImpl;
+import Service.Item.ItemService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,15 +15,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ItemEditController implements Initializable {
     ObservableList<ItemDetails>itemDetails= FXCollections.observableArrayList();
-    ItemService itemService=new ItemController();
+    ItemService itemService=new ItemServiceImpl();
 
     @FXML
     private Button btnBack;
@@ -120,26 +117,12 @@ public class ItemEditController implements Initializable {
     @FXML
     void OnEnter(ActionEvent event) {
         String code=txtCode.getText();
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            String SQL="SELECT * FROM Item WHERE ItemCode=?";
-            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
-            preparedStatement.setObject(1,code);
-            ResultSet resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()){
+        ItemDetails itemDetails1=itemService.enter(code);
+        txtDescription.setText(itemDetails1.getDescription());
+        txtSize.setText(itemDetails1.getSize());
+        txtPrice.setText(String.valueOf(itemDetails1.getPrice()));
+        txtQty.setText(String.valueOf(itemDetails1.getQty()));
 
-                txtDescription.setText(resultSet.getString("Description"));
-                txtSize.setText(resultSet.getString("PackSize"));
-                txtPrice.setText(resultSet.getString("UnitPrice"));
-                txtQty.setText(resultSet.getString("QtyOnHand"));
-
-
-
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
 
     }

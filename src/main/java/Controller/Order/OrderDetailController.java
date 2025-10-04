@@ -1,6 +1,8 @@
 package Controller.Order;
 
 import Model.OrderDetail;
+import Service.Order.OrderServiceImpl;
+import Service.Order.OrderService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class OrderDetailController implements Initializable {
     ObservableList <OrderDetail> orderDetails= FXCollections.observableArrayList();
-    OrderService orderService=new OrderController();
+    OrderService orderService=new OrderServiceImpl();
 
 
     @FXML
