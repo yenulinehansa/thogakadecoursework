@@ -1,13 +1,14 @@
-package Repository;
+package Repository.Impl;
 
 import DB.DBConnection;
+import Repository.OrderRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OrderRepositoryImpl implements OrderRepository{
+public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public ResultSet LoadTable() {
         Connection connection= null;
@@ -76,6 +77,20 @@ public class OrderRepositoryImpl implements OrderRepository{
             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public PreparedStatement AddOrderDetail() {
+        Connection connection= null;
+        try {
+            connection = DBConnection.getInstance().getConnection();
+            String SQL="INSERT INTO OrderDetail VALUES(?,?,?,?)";
+            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
+            return preparedStatement;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

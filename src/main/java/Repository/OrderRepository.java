@@ -13,4 +13,6 @@ public interface OrderRepository {
     ResultSet LoadCustomerDetails();
 
     ResultSet loadItemDetails();
+
+    PreparedStatement AddOrderDetail();
 }

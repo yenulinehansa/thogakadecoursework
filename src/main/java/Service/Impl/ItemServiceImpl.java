@@ -1,9 +1,10 @@
-package Service.Item;
+package Service.Impl;
 
 import DB.DBConnection;
 import Model.ItemDetails;
 import Repository.ItemRepository;
-import Repository.ItemRepositoryImpl;
+import Repository.Impl.ItemRepositoryImpl;
+import Service.ItemService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

@@ -2,8 +2,8 @@ package Controller.Order;
 
 import Model.Order;
 import Model.OrderDetail;
-import Service.Order.OrderServiceImpl;
-import Service.Order.OrderService;
+import Service.Impl.OrderServiceImpl;
+import Service.OrderService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -74,6 +74,7 @@ public class OrderFormController implements Initializable {
                 Integer.parseInt(txtQty.getText()),
                 Double.parseDouble(txtDiscount.getText())
         );
+        
         orderService.AddOrder(order);
         orderService.AddOrderDetail(orderDetail);
 

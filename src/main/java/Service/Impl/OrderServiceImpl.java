@@ -1,14 +1,13 @@
-package Service.Order;
+package Service.Impl;
 
-import DB.DBConnection;
 import Model.Order;
 import Model.OrderDetail;
 import Repository.OrderRepository;
-import Repository.OrderRepositoryImpl;
+import Repository.Impl.OrderRepositoryImpl;
+import Service.OrderService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,10 +60,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void AddOrderDetail(OrderDetail orderDetail) {
+        PreparedStatement preparedStatement=orderRepository.AddOrderDetail();
         try {
-            Connection connection=DBConnection.getInstance().getConnection();
-            String SQL="INSERT INTO OrderDetail VALUES(?,?,?,?)";
-            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
+
             preparedStatement.setObject(1,orderDetail.getOrderId());
             preparedStatement.setObject(2,orderDetail.getItemCode());
             preparedStatement.setObject(3,orderDetail.getQty());

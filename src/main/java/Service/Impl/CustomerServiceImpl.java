@@ -1,9 +1,9 @@
-package Service.Customer;
+package Service.Impl;
 
-import DB.DBConnection;
 import Model.CustomerDetails;
 import Repository.CustomerRepository;
-import Repository.CustomerRepositoryImpl;
+import Repository.Impl.CustomerRepositoryImpl;
+import Service.CustomerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

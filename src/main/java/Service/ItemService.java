@@ -1,4 +1,4 @@
-package Service.Item;
+package Service;
 
 import Model.ItemDetails;
 import javafx.collections.ObservableList;

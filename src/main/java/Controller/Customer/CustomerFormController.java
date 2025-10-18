@@ -1,8 +1,8 @@
 package Controller.Customer;
 
 import Model.CustomerDetails;
-import Service.Customer.CustomerServiceImpl;
-import Service.Customer.CustomerService;
+import Service.Impl.CustomerServiceImpl;
+import Service.CustomerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

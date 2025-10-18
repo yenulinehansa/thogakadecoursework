@@ -1,8 +1,8 @@
 package Controller.Item;
 
 import Model.ItemDetails;
-import Service.Item.ItemServiceImpl;
-import Service.Item.ItemService;
+import Service.Impl.ItemServiceImpl;
+import Service.ItemService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -1,13 +1,14 @@
-package Repository;
+package Repository.Impl;
 
 import DB.DBConnection;
+import Repository.ItemRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ItemRepositoryImpl implements ItemRepository{
+public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public PreparedStatement addItems() {
         Connection connection= null;

@@ -1,4 +1,4 @@
-package Service.Customer;
+package Service;
 
 import Model.CustomerDetails;
 import javafx.collections.ObservableList;

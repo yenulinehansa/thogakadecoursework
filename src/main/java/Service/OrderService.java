@@ -1,4 +1,4 @@
-package Service.Order;
+package Service;
 
 import Model.Order;
 import Model.OrderDetail;
